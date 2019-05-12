@@ -1,6 +1,12 @@
 <template>
   <div id="box1">
-    <div class="login"><font color="#00000">首页&nbsp;/&nbsp;数据管理&nbsp;/&nbsp;</font>用户列表</div>
+    <!--<el-breadcrumb class="login" color="#00000" separator="/">-->
+      <!--<el-breadcrumb-item :to="{ path: '/List' }">首页</el-breadcrumb-item>-->
+      <!--<el-breadcrumb-item>数据管理</el-breadcrumb-item>-->
+      <!--<el-breadcrumb-item>用户列表</el-breadcrumb-item>-->
+    <!--</el-breadcrumb>-->
+    <!--<router-link  to="/"><img class='img' src="https://elm.cangdu.org/img/default.jpg" /></router-link>-->
+    <heard> </heard>
     <el-table
       class="boby"
       ref="singleTable"
@@ -31,6 +37,7 @@
 </template>
 <script>
   import Axios from 'axios'
+  import heard from './head'
   export default {
     data() {
       return {
@@ -55,6 +62,9 @@
       Axios.get("https://elm.cangdu.org/v1/users/list?offset=0&limit=20").then(item => {
         console.log(item);
       });
+    },
+    components:{
+      heard
     },
     methods: {
       setCurrent(row) {
@@ -97,5 +107,13 @@
     font-size:15px;
     padding-left:15px;
     color: silver;
+  }
+  .img{
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    right:30px;
+    top:10px;
+    border-radius: 50%;
   }
 </style>

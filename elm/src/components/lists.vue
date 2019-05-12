@@ -2,231 +2,172 @@
   <div class="right">
     <div class="login">首页</div>
     <div class="tu">数据管理</div>
+    <router-link  to="/"><img class='img' src="https://elm.cangdu.org/img/default.jpg" /></router-link>
     <div class="tu-1">
       <span class="span1">当日数据：</span>
-      <span class="span2">{{user2}} 新增用户</span>
-      <span class="span2">{{dingdan}}  新增订单</span>
-      <span class="span2">{{admin}}  新增管理员</span>
+      <span class="span2">{{adminCount}}新增用户</span>
+      <span class="span2">{{userCount}} 新增订单</span>
+      <span class="span2">{{orderCount}} 新增管理员</span>
     </div>
     <div class="tu-2">
       <span class="span1">总数据：</span>
-      <span class="span2">{{user}}   注册用户</span>
-      <span class="span2">{{dingdan2}}    订单</span>
-      <span class="span2"> {{admin2}}    管理员</span>
+      <span class="span2">{{allAdminCount()}}注册用户</span>
+      <span class="span2">{{allUserCount}}订单</span>
+      <span class="span2">{{allOrderCount}}管理员</span>
     </div>
-    <div id="chartmain" style="width:900px; height: 450px;margin-top:50px;margin-left:50px"></div>
-
+    <ul>
+      <li v-for="i in orderList">
+        {{i}}
+      </li>
+    </ul>
+    <!--<div id="chartmain" style="width:900px; height: 450px;margin-top:50px;margin-left:50px"></div>-->
   </div>
 </template>
 <script>
-  import axios from "axios";
+  import Axios from "axios";
   export default {
     data() {
       return {
-        user:'',
-        dingdan:'',
-        admin:'',
-        dingdan2:'',
-        admin2:'',
-        user2:''
-      };
+        userCount:null,
+        orderCount:null,
+        adminCount:null,
+        allUserCount:null,
+        allOrderCount:null,
+        allAdminCount:null,
+        orderList:[],
+        userList:[],
+        adminList:[],
+      }
     },
+    // components:{
+    //   headTop
+    // },
     mounted(){
-      this.on()
-      axios
-        .get("https://elm.cangdu.org/v1/users/count")
-        .then((res)=>{
-          this.user=res.data.count
-        })
-      axios
-        .get("https://elm.cangdu.org/statis/order/2019-04-28/count")
-        .then((res)=>{
-          this.dingdan=res.data.count
-        })
-      axios
-        .get("https://elm.cangdu.org/statis/admin/2019-04-28/count")
-        .then((res)=>{
-          this.admin=res.data.count
-        })
-      axios
-        .get("https://elm.cangdu.org/bos/orders/count")
-        .then((res)=>{
-          this.dingdan2=res.data.count
-        })
-// https://elm.cangdu.org/admin/count
-      axios
-        .get("https://elm.cangdu.org/admin/count")
-        .then((res)=>{
-          this.admin2=res.data.count
-        })
-      axios
-        .get(" https://elm.cangdu.org/statis/user/2019-04-22/count")
-        .then((res)=>{
-          this.user2=res.data.count
-        })
-    },
-    created(){
-
+      this.getDate('user');
+      this.getDate('order');
+      this.getDate('admin');
     },
     methods: {
-      userList(){
-        this.$router.push({name:'userList'})
-      },
-      detail(){
-        this.$router.push({name:'detail'})
-      },
-      on(){
-        let aaa= this.$echarts.init(document.getElementById("chartmain"))
-        aaa.setOption({
-          title: {
-            text: '走势图',
-          },
-          tooltip: {
-            trigger: 'axis'
-          },
-          legend: {
-            data:['新注册用户','新增订单','新增管理员']
-          },
-          toolbox: {
-            show: true,
-            feature: {
-              dataZoom: {
-                yAxisIndex: 'none'
-              },
-              dataView: {readOnly: false},
-              magicType: {type: ['line', 'bar']},
-              restore: {},
-              saveAsImage: {}
-            }
-          },
-          xAxis:  {
-            type: 'category',
-            boundaryGap: false,
-            data: ['2019-04-22','2019-04-23','2019-04-24','2019-04-25','2019-04-26','2019-04-27','2019-04-28']
-          },
-          yAxis: {
-            type: 'value',
-            min: 0,
-            max: 200,
-            interval: 50,
-            axisLabel: {
-              formatter: '{value}'
-            }
-          },
-          series: [
-            {
-              name:'新注册用户',
-              type:'line',
-              data:[199, 113, 77, 50, 38, 13, 0,5],
-              markPoint: {
-                data: [
-                  {type: 'max', name: '最大值'},
-                  {type: 'min', name: '最小值'}
-                ]
-              },
-            },
-            {
-              name:'新增订单',
-              type:'line',
-              data:[15, 3, 2, 30, 3, 21, 2,17],
-              markPoint: {
-                data: [
-                  {type: 'max', name: '最大值'},
-                  {type: 'min', name: '最小值'}
-                ]
-              },
+      // initData(){
+      //   Promise.all([
+      //     this.getData('admin'),this.getData('order'),this.getData('user')
+      //   ]).then(res=>{
+      //    console.log()
+          // this.adminCount=res[0].data.count;
+          // this.adminCount=res[2].data.count;
+          // this.adminCount=res[2].data.count;
+        // }).catch(err=>{
+        //   console.log(err)
+        // })
+      // },
+      getData (url) {
+        for (let i = 0;i<7;i++){
+          let date=new Date();
+          date.setDate(date.getDate()-i);
+          const today = dtime(new Data()).format('YYYY-MM-DD');
+       this.$axios.get('http://elm.cangdu.org/statis/'+url+'/'+today+'/count').then(res=>{
+         if(url==='admin'){
+           if(i==0){
+             this.adminCount=res.data.count;
+           }else {
+             this.allAdminCount+=res.data.count;
+           }
+           this.adminList[today]=res.data.count
+         }
+         else if(url==='user'){
+           if(i==0){
+             this.userCount=res.data.count;
+           }else {
+             this.allUserCount+=res.data.count;
+           }
+           this.userList[today]=res.data.count
+         }
+         else if(url==='order'){
+           if(i==0){
+             this.orderCount=res.data.count;
+           }else {
+             this.allOrderCount+=res.data.count;
+           }
+           this.orderList[today]=res.data.count
+           console.log(this.orderList)
+         }
 
-            },
-            {
-              name:'新增管理员',
-              type:'line',
-              data:[124, 129, 123, 124, 127, 13, 22],
-              markPoint: {
-                data: [
-                  {type: 'max', name: '最大值'},
-                  {type: 'min', name: '最小值'}
-                ]
-              },
-
-            }
-          ]
         })
-      },
+      }
+     }
     }
-  };
+  }
 </script>
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-  .right{
-    width:98.5%;
-    background:white;
+  .right {
+    width: 83%;
+    background: white;
     z-index: 222;
-    height:940px;
-    .login{
-      width:100%;
-      height:60px;
-      background: #EFF2F7;
-      line-height:60px;
-      font-size:15px;
-      padding-left:15px;
+    height: 950px;
+    .login {
+      width: 100%;
+      height: 60px;
+      background: #eff2f7;
+      line-height: 60px;
+      font-size: 15px;
+      padding-left: 15px;
       color: lightgrey;
     }
-    .tu{
-      width:100%;
-      height:60px;
-      line-height:60px;
-      font-size:30px;
-      text-align:center;
+    .tu {
+      width: 100%;
+      height: 60px;
+      line-height: 60px;
+      font-size: 30px;
+      text-align: center;
     }
-    .tu-1{
-      margin-left:20px;
-      width:100%;
-      span{
+    .tu-1 {
+      margin-left: 20px;
+      width: 100%;
+      span {
         display: inline-block;
-        width:250px;
-        height:40px;
-        line-height:40px;
-        text-align:center;
+        width: 250px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
         background: red;
-        margin-left:20px;
-        border-radius:7px;
+        margin-left: 20px;
+        border-radius: 7px;
       }
-      .span1{
+      .span1 {
         display: inline-block;
-        font-size:25px;
-        font-weight:700;
+        font-size: 25px;
+        font-weight: 700;
         color: white;
-        background: #FF9800;
+        background: #ff9800;
       }
-      .span2{
+      .span2 {
         display: inline-block;
-        background: #E5E9F2;
+        background: #e5e9f2;
       }
     }
-    .tu-2{
-      margin-top:20px;
-      margin-left:20px;
-      width:100%;
-      span{
+    .tu-2 {
+      margin-top: 20px;
+      margin-left: 20px;
+      width: 100%;
+      span {
         display: inline-block;
-        width:250px;
-        height:40px;
-        line-height:40px;
-        text-align:center;
+        width: 250px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
         background: red;
-        margin-left:20px;
-        border-radius:7px;
+        margin-left: 20px;
+        border-radius: 7px;
       }
-      .span1{
-        font-size:25px;
-        font-weight:700;
+      .span1 {
+        font-size: 25px;
+        font-weight: 700;
         color: white;
-        background: #20A0FF;
+        background: #20a0ff;
       }
-      .span2{
-        background: #E5E9F2;
+      .span2 {
+        background: #e5e9f2;
       }
-
     }
   }
 </style>

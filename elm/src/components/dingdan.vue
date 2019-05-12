@@ -1,6 +1,11 @@
 <template>
   <div id="box1">
-    <div class="login"><font color="#00000">首页&nbsp;/&nbsp;数据管理&nbsp;/&nbsp;</font>订单列表</div>
+    <el-breadcrumb class="login" color="#00000" separator="/">
+      <el-breadcrumb-item :to="{ path: '/List' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>数据管理</el-breadcrumb-item>
+      <el-breadcrumb-item>订单列表</el-breadcrumb-item>
+    </el-breadcrumb>
+    <router-link  to="/"><img class='img' src="https://elm.cangdu.org/img/default.jpg" /></router-link>
     <el-table
       :data="table"
       class="boby"
@@ -99,6 +104,14 @@
   .boby{
     height: 76%;
     overflow-y: scroll;
+  }
+  .img{
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    right:30px;
+    top:10px;
+    border-radius: 50%;
   }
   .login{
     width:100%;

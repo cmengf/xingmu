@@ -1,7 +1,7 @@
 <template>
   <div id="box">
     <el-container style=" border: 1px solid #eee;">
-      <el-aside width="200px" style="background-color: #545c64; height:940px;">
+      <el-aside width="200px" style="background-color: #545c64; height:1500px;">
         <el-menu  default-active="1"
                   class="el-menu-vertical-demo"
                   @open="handleOpen"
@@ -21,19 +21,19 @@
             <!-- //数据管理 -->
             <template slot="title"><i class="el-icon-document"></i>数据管理</template>
             <el-menu-item-group>
-              <router-link tag="div"to="/Hol">
+              <router-link tag="div" to="/Hol">
                 <el-menu-item index="1-1">用户列表</el-menu-item>
               </router-link>
-              <router-link tag="div"to="/shangjia">
+              <router-link tag="div" to="/shangjia">
                 <el-menu-item index="1-2">商家列表</el-menu-item>
               </router-link>
-              <router-link tag="div"  to="/shipin">
+              <router-link tag="div"  to="/foot">
                 <el-menu-item index="1-3">食品列表</el-menu-item>
               </router-link>
               <router-link tag="div"  to="/dingdan">
                 <el-menu-item index="1-4">订单列表</el-menu-item>
               </router-link>
-              <router-link tag="div" to="">
+              <router-link tag="div" to="/guanliyuan">
                 <el-menu-item index="1-5">管理员列表</el-menu-item>
               </router-link>
             </el-menu-item-group>
@@ -42,10 +42,10 @@
             <!-- // 添加数据 -->
             <template slot="title"><i class="el-icon-plus"></i>添加数据</template>
             <el-menu-item-group>
-              <router-link tag="div"  to="/paging">
+              <router-link tag="div"  to="/addShop">
                 <el-menu-item index="1-1">添加商鋪</el-menu-item>
               </router-link>
-              <router-link tag="div"  to="/paging">
+              <router-link tag="div"  to="/addfood">
                 <el-menu-item index="1-2">添加商品</el-menu-item>
               </router-link>
             </el-menu-item-group>
@@ -53,7 +53,7 @@
           <!--  //图标 -->
           <template slot="title"><i class="el-icon-star-on"></i>图标</template>
           <el-menu-item-group>
-            <router-link tag="div"  to="/paging">
+            <router-link tag="div"  to="/vis">
               <el-menu-item index="1-1">用户分布</el-menu-item>
             </router-link>
           </el-menu-item-group>
@@ -61,7 +61,7 @@
           <!-- //编辑 -->
           <template slot="title"><i class="el-icon-edit"></i>编辑</template>
           <el-menu-item-group>
-            <router-link tag="div"  to="/paging">
+            <router-link tag="div"  to="/Bianji">
               <el-menu-item index="1-1">文本编辑</el-menu-item>
             </router-link>
           </el-menu-item-group>
@@ -69,7 +69,7 @@
           <!-- //设置 -->
           <template slot="title"><i class="el-icon-setting"></i>设置</template>
           <el-menu-item-group>
-            <router-link tag="div"  to="/paging">
+            <router-link tag="div"  to="/adminSet">
               <el-menu-item index="1-1">管理员设置</el-menu-item>
             </router-link>
           </el-menu-item-group>
@@ -92,13 +92,13 @@
 </template>
 <script>
   export default {
-    data() {
+    data(){
       return {
-        list:"首页/数据管理/用户列表 ",
-        food:"首页/数据管理/商家列表",
-        shipin:"首页/数据管理/食品列表",
-        orderID:"首页/数据管理/订单列表",
-        listing:"首页/数据管理/管理员列表",
+    //     list:"首页/数据管理/用户列表 ",
+    //     food:"首页/数据管理/商家列表",
+    //     shipin:"首页/数据管理/食品列表",
+    //     orderID:"首页/数据管理/订单列表",
+    //     listing:"首页/数据管理/管理员列表",
       }
     },
     methods: {
